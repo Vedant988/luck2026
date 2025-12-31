@@ -20,14 +20,22 @@ async def get_index():
         return f.read()
 
 @app.post("/api/claim-reward")
-async def claim_reward(info: dict):
-    # This will highlight her choice in your Render Logs
-    gift = info.get("gift_chosen", "Unknown")
-    
-    print("\n" + "⭐" * 40)
-    print(f"BIRTHDAY SURPRISE LOG")
-    print(f"CHOICE MADE: {gift}")
-    print(f"TIME: {info.get('timestamp')}")
-    print("⭐" * 40 + "\n")
-    
-    return {"status": "success", "choice_received": gift}
+async def claim(data: dict):
+    # Fix: Changed 'info' to 'data' and matched the key 'gift' used in JS
+    gift = data.get("gift", "Unknown Item")
+    gift_url = data.get("url", "No Link Provided")
+    timestamp = data.get("timestamp", "N/A")
+
+    # This will show up in your Render Logs
+    print("\n" + "⭐" * 30)
+    print(f"🎉 BIRTHDAY REWARD CLAIMED!")
+    print(f"🎁 Item: {gift}")
+    print(f"🔗 Link: {gift_url}")
+    print(f"📅 Time: {timestamp}")
+    print("⭐" * 30 + "\n")
+
+    return {
+        "status": "success", 
+        "choice_received": gift,
+        "message": "Log recorded successfully"
+    }
