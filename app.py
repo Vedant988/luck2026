@@ -21,17 +21,24 @@ async def get_index():
 
 @app.post("/api/claim-reward")
 async def claim(data: dict):
-    # Fix: Changed 'info' to 'data' and matched the key 'gift' used in JS
+    # 1. Extract all values from the 'data' dictionary sent by the frontend
     gift = data.get("gift", "Unknown Item")
     gift_url = data.get("url", "No Link Provided")
     timestamp = data.get("timestamp", "N/A")
+    # This is the line that was missing:
+    custom_name = data.get("custom_name", "N/A")
 
-    # This will show up in your Render Logs
+    # 2. Print the standard info
     print("\n" + "⭐" * 30)
     print(f"🎉 BIRTHDAY REWARD CLAIMED!")
     print(f"🎁 Item: {gift}")
     print(f"🔗 Link: {gift_url}")
     print(f"📅 Time: {timestamp}")
+    
+    # 3. Print the prank name if she chose the bracelet
+    if gift == "Personalized Bracelet":
+        print(f"🔥 ENGRAVING NAME: {custom_name}") # This will show 'Samruddhv'
+    
     print("⭐" * 30 + "\n")
 
     return {
@@ -39,3 +46,4 @@ async def claim(data: dict):
         "choice_received": gift,
         "message": "Log recorded successfully"
     }
+    

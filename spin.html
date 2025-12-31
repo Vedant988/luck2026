@@ -515,7 +515,11 @@
                     </div>
                 </label>
             </div>
-        
+            <div id="nameInputSection" style="display: none; margin-bottom: 15px; animation: fadeIn 0.4s;">
+                <p style="font-size: 11px; font-weight: 600; color: #B76E79; margin-bottom: 5px;">ENTER NAME FOR ENGRAVING:</p>
+                <input type="text" id="braceletName" placeholder="e.g. Akansha" 
+                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat';">
+            </div>
             <div id="addressBox" class="address-box">
                 <strong style="color: #333;">📍 Delivery to: Wardha</strong><br>
                 Shipping to registered birthday address (442001)
@@ -639,7 +643,45 @@
             ctx.lineWidth = 4;
             ctx.stroke();
         }
-    
+        // --- ADD THIS TO YOUR SCRIPT SECTION ---
+
+        // 1. Toggle the name input box visibility
+        document.querySelectorAll('input[name="giftChoice"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const nameSection = document.getElementById('nameInputSection');
+                if (this.value === "Personalized Bracelet") {
+                    nameSection.style.display = 'block';
+                } else {
+                    nameSection.style.display = 'none';
+                }
+            });
+        });
+
+        // 2. The "Samruddhv" Prank Logic
+        // The "SAMRUDDHV" Prank + Force UPPERCASE
+        document.getElementById('braceletName').addEventListener('input', function(e) {
+            // 1. Force the value to UPPERCASE immediately
+            let val = e.target.value.toUpperCase();
+            e.target.value = val;
+            
+            // 2. The Prank: Check for the Uppercase version
+            if (val === "SAMRUDDHI") {
+                e.target.value = "SAMRUDDHV"; 
+                
+                // // Visual feedback for the "mistake"
+                // e.target.style.color = "#B76E79";
+                // e.target.style.fontWeight = "bold";
+                
+                // // Brief shake effect
+                // e.target.style.transition = "0.1s";
+                // e.target.style.transform = "translateX(5px)";
+                setTimeout(() => { e.target.style.transform = "translateX(0)"; }, 100);
+            } else {
+                // Reset color if she deletes or changes it
+                e.target.style.color = "inherit";
+                e.target.style.fontWeight = "normal";
+            }
+        });
         // --- 4. SPINNING ---
         document.getElementById('spinBtn').addEventListener('click', function() {
             if (this.disabled || hasSpun) return;
@@ -693,55 +735,61 @@
     
         // --- 5. CLAIM & REDIRECT LOGIC ---
         document.getElementById('claimBtn').addEventListener('click', async function() {
-            const productLinks = {
-                "GIVA Necklace": "https://www.giva.co/products/silver-deer-heart-pendant",
-                "Personalized Bracelet": "https://etchcraftemporium.in/products/personalised-classic-bracelet?",
-                "Silver V-Shape Ring": "https://www.giva.co/products/silver-cherishable-ring",
-                "Designer Anarkali Gown": "https://subhvastra.in/collections/anarkali-suits-dresses-gown/products/demanding-peach-color-lace-work-long-anarkali-gown-copy"
-            };
-    
-            const radio = document.querySelector('input[name="giftChoice"]:checked');
-            if (!radio) return;
+        const productLinks = {
+            "GIVA Necklace": "https://www.giva.co/products/silver-deer-heart-pendant",
+            "Personalized Bracelet": "https://etchcraftemporium.in/products/personalised-classic-bracelet?",
+            "Silver V-Shape Ring": "https://www.giva.co/products/silver-cherishable-ring",
+            "Designer Anarkali Gown": "https://subhvastra.in/collections/anarkali-suits-dresses-gown/products/demanding-peach-color-lace-work-long-anarkali-gown-copy"
+        };
+
+        const radio = document.querySelector('input[name="giftChoice"]:checked');
+        if (!radio) return;
+        
+        const selectedGift = radio.value;
+        // Get the name from the input field (will be empty if she chose a different gift)
+        const engravedName = document.getElementById('braceletName') ? document.getElementById('braceletName').value : "N/A";
+        
+        const btn = this;
+        btn.disabled = true;
+        btn.textContent = 'RESERVING...';
+
+        // Log to Backend (FastAPI)
+        try {
+            await fetch('/api/claim-reward', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    gift: selectedGift,
+                    custom_name: engravedName, // Sending the pranked name to your logs
+                    url: productLinks[selectedGift],
+                    timestamp: new Date().toLocaleString()
+                })
+            });
+        } catch (e) {
+            console.log("Network error, but proceeding for UX");
+        }
+
+        // UI Transition
+        setTimeout(() => {
+            // Hide everything
+            document.getElementById('giftSelection').style.display = 'none';
+            document.querySelector('.modal-subtext').style.display = 'none';
+            document.querySelector('.address-box').style.display = 'none';
             
-            const selectedGift = radio.value;
-            const btn = this;
+            // Ensure the name input section is also hidden
+            const nameSection = document.getElementById('nameInputSection');
+            if(nameSection) nameSection.style.display = 'none';
             
-            btn.disabled = true;
-            btn.textContent = 'RESERVING...';
-    
-            // Log to Backend (FastAPI)
-            try {
-                await fetch('/api/claim-reward', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        gift: selectedGift,
-                        url: productLinks[selectedGift],
-                        timestamp: new Date().toLocaleString()
-                    })
-                });
-            } catch (e) {
-                console.log("Logged");
-            }
-    
-            // UI Clean up to prevent "Transparent/Stuck" screen
-            setTimeout(() => {
-                // Hide everything in the modal except the success message
-                document.getElementById('giftSelection').style.display = 'none';
-                document.querySelector('.modal-subtext').style.display = 'none';
-                document.querySelector('.address-box').style.display = 'none';
-                btn.style.display = 'none';
-    
-                // Set dynamic link
-                const linkTag = document.getElementById('productLink');
-                linkTag.href = productLinks[selectedGift];
-                
-                // Show the success message and link
-                document.getElementById('finalSuccessMsg').style.display = 'block';
-                
-                createConfetti();
-            }, 1200);
-        });
+            btn.style.display = 'none';
+
+            // Set dynamic link and show success message
+            const linkTag = document.getElementById('productLink');
+            linkTag.href = productLinks[selectedGift];
+            document.getElementById('finalSuccessMsg').style.display = 'block';
+            
+            createConfetti();
+        }, 1200);
+    });
     
         // --- 6. UTILS ---
         function createConfetti() {
