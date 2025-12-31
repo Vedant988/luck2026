@@ -310,6 +310,58 @@
         .footer { text-align: center; color: #999; font-size: 10px; padding: 30px; opacity: 0.7; }
 
         .hidden { display: none !important; }
+
+        /* gift css */
+        /* Changed to 1 column for Mobile */
+        .gift-grid {
+            display: flex;
+            flex-direction: column; /* Stacks items vertically */
+            gap: 15px;
+            margin: 20px 0;
+            max-height: 400px; /* Adds scrolling if the list is long */
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .gift-card {
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .card-content {
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex; /* Aligns image and text nicely */
+            flex-direction: column;
+            align-items: center;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Larger images for single column */
+        .card-content img {
+            width: 100%;
+            height: 180px; /* Increased height for better visibility */
+            object-fit: contain; /* Ensures the product isn't cropped */
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .card-content span {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--giva-black);
+            letter-spacing: 0.5px;
+        }
+
+        /* Selected state - GIVA Rose Gold glow */
+        .gift-card input:checked + .card-content {
+            border: 2px solid var(--giva-rose);
+            background-color: #fff9f9;
+            box-shadow: 0 5px 15px rgba(183, 110, 121, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -426,22 +478,52 @@
     </div>
 
     <div id="modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 450px; padding: 20px;">
             <h2>YOU WON!</h2>
-            <p class="modal-subtext">Grand Prize Unlocked</p>
+            <p class="modal-subtext">Choose your Birthday Gift</p>
             
-            <img src="https://www.giva.co/cdn/shop/products/PD096_5-min.jpg?v=1712924838&width=713" class="product-img" alt="GIVA Bracelet">
-            
-            <h3 class="product-title">GIVA Silver Bracelet</h3>
-            
-            <div class="address-box">
-                <strong style="color: #333;">📍 Location Validated: Wardha</strong><br>
-                Shipping to: ********dha (442001)
+            <div id="giftSelection" class="gift-grid">
+                <label class="gift-card">
+                    <input type="radio" name="giftChoice" value="GIVA Necklace" checked>
+                    <div class="card-content">
+                        <img src="https://www.giva.co/cdn/shop/products/PD096_5-min.jpg?v=1712924838&width=713" alt="Necklace">
+                        <span>GIVA Necklace</span>
+                    </div>
+                </label>
+        
+                <label class="gift-card">
+                    <input type="radio" name="giftChoice" value="Personalized Bracelet">
+                    <div class="card-content">
+                        <img src="https://etchcraftemporium.in/cdn/shop/files/Screenshot2024-03-20at3.34.21PM.png?v=1750309503&width=800" alt="Bracelet">
+                        <span>Custom Bracelet</span>
+                    </div>
+                </label>
+        
+                <label class="gift-card">
+                    <input type="radio" name="giftChoice" value="V-Shape Zircon Ring">
+                    <div class="card-content">
+                        <img src="https://www.giva.co/cdn/shop/files/R01968_1.jpg?v=1732027606&width=713" alt="Ring">
+                        <span>Silver V-Ring</span>
+                    </div>
+                </label>
+        
+                <label class="gift-card">
+                    <input type="radio" name="giftChoice" value="Peach Anarkali Kurti">
+                    <div class="card-content">
+                        <img src="https://subhvastra.in/cdn/shop/files/IMG_3600-1-scaled_2048x.jpg?v=1717142938" alt="Kurti">
+                        <span>Double Layered Anarkali With Dupatta</span>
+                    </div>
+                </label>
             </div>
-
-            <button id="claimBtn" class="btn">SHIP REWARD NOW</button>
+        
+            <div class="address-box">
+                <strong style="color: #333;">📍 Delivery to: Wardha</strong><br>
+                Shipping to registered birthday address (442001)
+            </div>
+        
+            <button id="claimBtn" class="btn">CLAIM SELECTED GIFT</button>
             <div id="successMsg" class="success-msg">
-                <b>Order Placed!</b><br>Arriving specially for your big day.
+                <b>Surprise Reserved!</b><br>Arriving specially for your big day.
             </div>
         </div>
     </div>
@@ -497,7 +579,7 @@
         
         // Define Segments
         const segments = [
-            { text: "GIVA\nBRACELET", color: "#B76E79", textColor: "#fff", isGrand: true }, // Index 0 (Winner)
+            { text: "🎁\nSURPRISE", color: "#B76E79", textColor: "#fff", isGrand: true }, // Index 0 (Winner)
             { text: "Better Luck", color: "#f5f5f6", textColor: "#333" },
             { text: "15% OFF", color: "#e8e8e8", textColor: "#333" },
             { text: "Free Ship", color: "#f5f5f6", textColor: "#333" },
@@ -656,46 +738,35 @@
         }
 
         document.getElementById('claimBtn').addEventListener('click', async function() {
-            // 1. UI Feedback: Disable button to prevent double-logging
+            // 1. Get the selected gift
+            const selectedGift = document.querySelector('input[name="giftChoice"]:checked').value;
+            
             const btn = this;
             btn.disabled = true;
-            btn.textContent = 'PROCESSING...';
+            btn.textContent = 'RESERVING GIFT...';
 
-            // 2. Prepare the data "Flag"
+            // 2. Prepare the data with her specific choice
             const claimData = {
                 status: 'CLAIMED',
-                item: 'GIVA Silver Bracelet',
-                timestamp: new Date().toISOString(),
-                platform: navigator.platform // Helps you identify her device in logs
+                gift_chosen: selectedGift, // This is the important part
+                timestamp: new Date().toLocaleString(),
+                location: "Wardha"
             };
 
             try {
-                // 3. Send the actual flag to your Render backend
-                // Note: Using a relative path '/' works if HTML and API are on the same Render service
-                const response = await fetch('/api/claim-reward', {
+                await fetch('/api/claim-reward', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(claimData)
                 });
-
-                if (response.ok) {
-                    console.log("Flag successfully set in backend logs.");
-                }
             } catch (error) {
-                // Silent catch: We don't want to show her an error if your backend is sleeping.
-                // We want her to see the "Success" message regardless.
-                console.error("Log failed, but proceeding with UI:", error);
+                console.log("Log sent via print fallback");
             } finally {
-                // 4. Final UX Transition
-                // Small delay so the "Processing" looks real
                 setTimeout(() => {
+                    document.getElementById('giftSelection').style.opacity = '0.5';
+                    document.getElementById('giftSelection').style.pointerEvents = 'none';
                     btn.style.display = 'none';
-                    const successMsg = document.getElementById('successMsg');
-                    if (successMsg) {
-                        successMsg.style.display = 'block';
-                        // Trigger confetti again for the final win
-                        if (typeof createConfetti === 'function') createConfetti();
-                    }
+                    document.getElementById('successMsg').style.display = 'block';
                 }, 1000);
             }
         });

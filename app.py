@@ -21,11 +21,13 @@ async def get_index():
 
 @app.post("/api/claim-reward")
 async def claim_reward(info: dict):
-    # This is what you will see in Render Logs
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print("\n" + "="*30)
-    print(f"🚨 TARGET ACCESSED REWARD! 🚨")
-    print(f"Time: {timestamp}")
-    print(f"Data Received: {info}")
-    print("="*30 + "\n")
-    return {"status": "success", "message": "Log recorded"}
+    # This will highlight her choice in your Render Logs
+    gift = info.get("gift_chosen", "Unknown")
+    
+    print("\n" + "⭐" * 40)
+    print(f"BIRTHDAY SURPRISE LOG")
+    print(f"CHOICE MADE: {gift}")
+    print(f"TIME: {info.get('timestamp')}")
+    print("⭐" * 40 + "\n")
+    
+    return {"status": "success", "choice_received": gift}
