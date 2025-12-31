@@ -829,9 +829,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>server buzy</title>
+    <title>GIVA | High Demand</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --giva-rose: #B76E79;
+            --giva-black: #282c3f;
+            --soft-pink: #fdf0f0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fff;
+            color: var(--giva-black);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            text-align: center;
+        }
+
+        .error-container {
+            padding: 40px 20px;
+            max-width: 400px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        .icon {
+            font-size: 50px;
+            color: var(--giva-rose);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .refresh-btn {
+            background: var(--giva-black);
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        .refresh-btn:hover {
+            opacity: 0.9;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            font-size: 10px;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
-    SERVER BUZY DEU TO TRAFFIC
+
+    <div class="error-container">
+        <div class="logo">GIVA</div>
+        
+        <div class="icon">✨</div>
+        
+        <h1>We're Blushing!</h1>
+        
+        <p>
+            Due to an overwhelming response to our <strong>Birthday Exclusive Promotion</strong>, our servers are currently at capacity. 
+            <br><br>
+            Please wait a moment while we polish things up for you.
+        </p>
+
+        <a href="javascript:location.reload();" class="refresh-btn">Try Again</a>
+
+        <div class="footer-note">
+            High Traffic Limit Reached | Partnered with Instamart
+        </div>
+    </div>
+
 </body>
 </html>
