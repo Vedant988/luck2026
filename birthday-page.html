@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #141414;
+            --primary: #e50914;
+            --love-pink: #ff6b9d;
+            --text: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        body.pink-mode {
+            background: linear-gradient(135deg, #FFD3A5 0%, #FD6585 50%, #C9A0DC 100%);
+        }
+
+        body.pink-mode .navbar {
+            background: rgba(255, 107, 157, 0.9) !important;
+        }
+
+        body.pink-mode .hero-overlay {
+            background: linear-gradient(to top, #FFD3A5 10%, transparent 50%, rgba(255, 107, 157, 0.3) 100%);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+            z-index: 100;
+            transition: 0.5s;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 30px;
+            color: var(--love-pink);
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+        .hero {
+            position: relative;
+            height: 85vh;
+            width: 100%;
+            background: url('https://placehold.co/1920x1080/1a1a2e/ff6b9d?text=Your+Best+Couple+Photo+Here') center/cover no-repeat;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, #141414 10%, transparent 50%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 30%;
+            left: 4%;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            color: #e0e0e0;
+        }
+
+        .btn-container { display: flex; gap: 10px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+
+        .btn-play { background: white; color: black; }
+        .btn-play:hover { opacity: 0.8; }
+        
+        .btn-list { background: rgba(109, 109, 110, 0.7); color: white; }
+        .btn-list:hover { background: rgba(109, 109, 110, 0.4); }
+
+        .row {
+            margin-bottom: 40px;
+            padding-left: 4%;
+        }
+
+        .row-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #e5e5e5;
+        }
+        
+        .row-title span {
+            color: var(--love-pink);
+            font-weight: 300;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .row-posters {
+            display: flex;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+        
+        .row-posters::-webkit-scrollbar { display: none; }
+        .row-posters { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .poster-container {
+            position: relative;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .poster {
+            max-height: 200px;
+            border-radius: 5px;
+            transition: transform 450ms;
+            cursor: pointer;
+            object-fit: cover;
+            display: block;
+        }
+
+        .poster-wide {
+            max-height: 130px;
+            min-width: 250px;
+        }
+
+        .poster-container:hover .poster {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .audio-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .audio-badge:hover {
+            background: var(--love-pink);
+            transform: scale(1.1);
+        }
+
+        .audio-badge.playing {
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #181818;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 107, 157, 0.2);
+            position: relative;
+            animation: popUp 0.3s ease;
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-info { padding: 25px; }
+        .modal-title { font-size: 1.5rem; margin-bottom: 10px; color: var(--love-pink); }
+        .modal-desc { color: #ccc; line-height: 1.6; margin-bottom: 15px; }
+        
+        .modal-audio-btn {
+            background: var(--love-pink);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-audio-btn:hover {
+            background: #ff4d7d;
+            transform: translateY(-2px);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* --- FIXED CREDITS SECTION --- */
+/* --- FINAL CREDITS FIX --- */
+.credits {
+    background: #000;
+    height: 80vh; /* Takes up 80% of screen */
+    overflow: hidden; /* Cuts off text leaving the screen */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers the scroll column horizontally */
+}
+
+/* --- OPTIMIZED LOOP SPEED --- */
+.credits-scroll {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    /* Start just below the screen */
+    top: 100%; 
+    /* Reduced to 60s so it doesn't feel too slow, but readable */
+    animation: scroll-up 60s linear infinite; 
+}
+
+@keyframes scroll-up {
+    0% { 
+        top: 100%; 
+    }
+    100% { 
+        /* CHANGED FROM -400% to -250% */
+        /* This is the "Sweet Spot". It moves up just enough to clear the text, 
+           then immediately restarts. No long waiting. */
+        top: -250%; 
+    }
+}
+
+.credits-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--love-pink);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 5px;
+    margin-bottom: 60px; /* Space between Title and first name */
+    text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+}
+
+.credits-item {
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.credits-role {
+    color: #999;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.credits-name {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-family: Arial, sans-serif !important;
+}
+
+.credits-special {
+    color: var(--love-pink);
+    font-style: italic;
+    margin-top: 50px;
+    font-size: 1.2rem;
+    padding-bottom: 50px; /* Extra space at the end */
+}
+
+        .easter-egg-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--love-pink);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+            z-index: 200;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-content { bottom: 20%; }
+            .btn { padding: 10px 20px; font-size: 1rem; }
+        }
+        /* CAKE ANIMATIONS */
+.cake-modal-content {
+    text-align: center;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffd3e0 100%);
+    color: #333;
+    padding: 40px 20px;
+}
+
+.cake-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 50px auto;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
+}
+
+.cake-body {
+    width: 200px;
+    height: 100px;
+    background: linear-gradient(to bottom, #f8a5c2 0%, #f493b5 100%);
+    border-radius: 15px 15px 0 0;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    box-shadow: inset 0 -25px 15px rgba(0,0,0,0.1),
+                0 5px 15px rgba(248, 165, 194, 0.4);
+}
+
+.cake-body::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.15));
+    border-radius: 0 0 5px 5px;
+}
+
+.cake-icing {
+    position: absolute;
+    top: -18px;
+    /* CHANGED FROM 10px TO 3px TO CENTER IT */
+    left: 3px; 
+    width: 18px;
+    height: 35px;
+    background: linear-gradient(to bottom, #fff 60%, #f0f0f0 100%);
+    border-radius: 20px 20px 5px 5px;
+    /* These shadows create the drip effect */
+    box-shadow: 22px 0 0 #fff, 44px 0 0 #fff, 66px 0 0 #fff, 88px 0 0 #fff, 
+                110px 0 0 #fff, 132px 0 0 #fff, 154px 0 0 #fff, 176px 0 0 #fff;
+    animation: icingBounce 1s ease-in-out infinite;
+}
+
+@keyframes icingBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.candle {
+    width: 16px;
+    height: 65px;
+    background: repeating-linear-gradient(
+        45deg, 
+        #fdcb6e, 
+        #fdcb6e 6px, 
+        #fff 6px, 
+        #fff 12px
+    );
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 8px 8px 3px 3px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2),
+                inset 2px 0 3px rgba(255,255,255,0.5),
+                inset -2px 0 3px rgba(0,0,0,0.2);
+}
+
+.candle::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: #333;
+    border-radius: 2px 2px 0 0;
+}
+
+.flame {
+    width: 22px;
+    height: 32px;
+    background: radial-gradient(ellipse at center, 
+                #ffeb3b 0%, 
+                #ff9800 30%, 
+                #ff5722 60%, 
+                rgba(255,87,34,0) 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: flicker 0.15s infinite alternate, sway 2s ease-in-out infinite;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.8), 
+                0 0 40px rgba(255, 235, 59, 0.6),
+                0 0 60px rgba(255, 152, 0, 0.4);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: blur(1px);
+}
+
+.flame::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 18px;
+    background: radial-gradient(ellipse at center, 
+                #fff 0%, 
+                #ffeb3b 40%, 
+                rgba(255,235,59,0) 100%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.flame:hover { 
+    transform: translateX(-50%) scale(1.15); 
+    filter: blur(1.5px);
+}
+
+.flame.out {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.1);
+    filter: blur(5px);
+}
+
+.smoke {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, rgba(120,120,120,0.6), rgba(100,100,100,0.3));
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(2px);
+}
+
+.smoke.rise { 
+    animation: smokeRise 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; 
+}
+
+@keyframes flicker { 
+    0% { 
+        opacity: 0.85;
+        box-shadow: 0 0 15px rgba(255, 152, 0, 0.7), 
+                    0 0 35px rgba(255, 235, 59, 0.5);
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateX(-50%) scale(1.08);
+        box-shadow: 0 0 25px rgba(255, 152, 0, 0.9), 
+                    0 0 45px rgba(255, 235, 59, 0.7);
+    } 
+}
+
+@keyframes sway {
+    0%, 100% { 
+        transform: translateX(-50%) rotate(-2deg);
+    }
+    50% { 
+        transform: translateX(-50%) rotate(2deg);
+    }
+}
+
+@keyframes smokeRise { 
+    0% { 
+        opacity: 0.8; 
+        top: -30px; 
+        transform: translateX(-50%) scale(1);
+    } 
+    50% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(2) translateX(-10px);
+    }
+    100% { 
+        opacity: 0; 
+        top: -120px; 
+        transform: translateX(-50%) scale(3.5) translateX(-20px);
+    } 
+}
+
+/* Confetti effect when candle is blown */
+@keyframes confettiPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(
+            calc(-50% + var(--x, 0px)), 
+            calc(-50% + var(--y, -100px))
+        ) scale(1) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* --- CINEMATIC CONFETTI CSS --- */
+.confetti-piece {
+    position: fixed;
+    top: -20px; /* Start above screen */
+    z-index: 9999;
+    border-radius: 4px; /* Slight rounded corners looks more natural */
+    opacity: 0.9;
+    /* The animation 'fall' will be controlled by JS timing */
+    animation: fall linear forwards; 
+}
+
+@keyframes fall {
+    0% {
+        top: -20px;
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        top: 110vh; /* Fall way below screen */
+        /* Move sideways (drift) and spin wildly */
+        transform: translateX(var(--drift)) rotate(var(--spin)); 
+        opacity: 0;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo" id="logo">sammaflix</div>
+        <div class="user-avatar">
+            <img src="https://placehold.co/100x100/ff6b9d/white?text=❤" alt="User">
+        </div>
+    </div>
+    <div class="modal" id="cakeModal">
+    <div class="modal-content cake-modal-content">
+        <button class="close-btn" onclick="document.getElementById('cakeModal').style.display='none'">×</button>
+        <h2 style="font-family: 'Bebas Neue'; font-size: 30px; margin-top: 20px;">Make a Wish! ✨</h2>
+        <p>Click the flame to blow out the candle...</p>
+        
+        <div class="cake-container">
+            <div class="cake-body">
+                <div class="cake-icing"></div>
+            </div>
+            <div class="candle">
+                <div class="flame" id="flame" onclick="blowCandle()"></div>
+                <div class="smoke" id="smoke"></div>
+            </div>
+        </div>
+        
+        <h3 id="birthdayMessage" style="opacity: 0; transition: 2s; color: #d6336c;">HAPPY BIRTHDAY MY LOVE! ❤️</h3>
+    </div>
+</div>
+
+    <div class="hero" style="background-image: url('main-hero.jpeg'); background-size: cover; background-position: center;">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">Happy Birthday, Samruddhi</h1>
+        <p class="hero-desc">
+            100% Match &nbsp;|&nbsp; 2025 &nbsp;|&nbsp; Season 21 &nbsp;|&nbsp; Blockbuster <br><br>
+            The world became a better place on this day. 
+            Starring the prettiest girl in the universe and the boy who is obsessed with her.
+            <!-- <br><span style="color: #ff6b9d; font-size: 0.9rem;">(Critics Rating: ⭐⭐⭐⭐⭐ "Best Girlfriend Ever")</span> -->
+        </p>
+        <div class="btn-container">
+            <button class="btn btn-play" onclick="playVideo()">
+                <span>▶</span> Play Birthday Wish
+            </button>
+            <button class="btn btn-list">
+                <span>+</span> Gift Box
+            </button>
+        </div>
+    </div>
+</div>
+
+
+    <div class="row">
+        <h2 class="row-title">Trending in My Heart <span>Top Picks for You</span></h2>
+        <div class="row-posters">
+            <div class="poster-container">
+                <div class="audio-badge" onclick="playAudio(0, event)">🎧</div>
+                <img src="https://placehold.co/200x300/ff6b9d/white?text=Cute+Smile" class="poster" onclick="openModal('That Smile', 'I remember this day so clearly. You looked absolutely stunning, and that smile? It made everything worth it.', 0)">
+            </div>
+            <div class="poster-container">
+                <img src="open-me.jpg" class="poster" onclick="document.getElementById('cakeModal').style.display='flex'">
+            </div>
+            <div class="poster-container">
+                <div class="audio-badge" onclick="playAudio(1, event)">🎧</div>
+                <img src="https://placehold.co/200x300/c9a0dc/white?text=Your+Laugh" class="poster" onclick="openModal('That Laugh', 'Your laugh is literally my favorite sound in the entire world. I could listen to it forever.', 1)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/fd6585/white?text=First+Trip" class="poster" onclick="openModal('Adventure Time', 'This trip was amazing because you were there. Every moment with you is an adventure.', null)">
+            </div>
+            <div class="poster-container">
+                <div class="audio-badge" onclick="playAudio(2, event)">🎧</div>
+                <img src="https://placehold.co/200x300/ffd3a5/white?text=Random+Click" class="poster" onclick="openModal('Effortlessly Beautiful', 'Even when you are not trying, you are absolutely perfect. This candid moment proves it.', 2)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/a8dadc/white?text=Coffee+Date" class="poster" onclick="openModal('Coffee & You', 'I could drink a thousand coffees with you and never get tired of our conversations.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/ff6b9d/white?text=Birthday+Girl" class="poster" onclick="openModal('Birthday Queen', 'Happy Birthday my love! Today is all about celebrating the most amazing person I know.', null)">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h2 class="row-title">Because You Watched 'Being Adorable' <span>Cuteness Overload</span></h2>
+        <div class="row-posters">
+            <div class="poster-container">
+                <img src="https://placehold.co/300x170/457b9d/white?text=Silly+Moments" class="poster poster-wide" onclick="openModal('My Goofball', 'Never stop being this silly. These moments make me fall in love with you even more.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/300x170/1d3557/white?text=Peaceful" class="poster poster-wide" onclick="openModal('Sleeping Beauty', 'Yes, I took this while you were sleeping. You looked so peaceful and beautiful.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/300x170/e63946/white?text=Foodie+Love" class="poster poster-wide" onclick="openModal('My Foodie', 'You love food almost as much as you love me. Almost.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/300x170/f1faee/333?text=Us+Together" class="poster poster-wide" onclick="openModal('My Favorite Place', 'My favorite place in the world is right next to you.', null)">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h2 class="row-title">Coming Soon (Season 2) <span>Future Adventures</span></h2>
+        <div class="row-posters">
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/2a9d8f/white?text=Paris+2026" class="poster" onclick="openModal('Paris Adventure', 'Coming Soon in 2026. I promise to take you here. This is just the beginning of our story.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/e76f51/white?text=Beach+Sunset" class="poster" onclick="openModal('Beach Getaway', 'Releasing Soon. Watching sunsets with you in exotic locations. Stay tuned.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/264653/white?text=Mountains" class="poster" onclick="openModal('Mountain Escape', 'Coming 2025. Peaceful mountain retreats with just us and nature.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/f4a261/white?text=Forever" class="poster" onclick="openModal('Our Forever', 'Now Showing. Every day with you is a new episode I never want to end.', null)">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom: 50px;">
+        <h2 class="row-title">Critically Acclaimed Moments <span>Award Winning</span></h2>
+        <div class="row-posters">
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/ffb4a2/white?text=Award+1" class="poster" onclick="openModal('Best Kiss Scene', 'Winner: Best Romantic Moment 2024. This kiss changed everything.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/e5989b/white?text=Award+2" class="poster" onclick="openModal('Best Supporting Hug', 'Winner: Most Comforting Embrace. Your hugs fix everything.', null)">
+            </div>
+            <div class="poster-container">
+                <img src="https://placehold.co/200x300/b5838d/white?text=Award+3" class="poster" onclick="openModal('Lifetime Achievement', 'For being the most amazing girlfriend in the history of girlfriends.', null)">
+            </div>
+        </div>
+    </div>
+
+    <div class="credits">
+        <div class="credits-scroll">
+    <div class="credits-title">♥ CREDITS ♥</div>
+
+    <div class="credits-item">
+        <div class="credits-role">Starring The Birthday Girl</div>
+        <div class="credits-name">My Samruddhiiiiii</div>
+        <div class="credits-role" style="font-size: 0.8rem; margin-top: 5px; color: #ff6b9d;">(aka The Prettiest Girl in the World)</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Featuring</div>
+        <div class="credits-name">Yours Vedant</div>
+        <div class="credits-role" style="font-size: 0.8rem; margin-top: 5px;">(aka The Guy Who is Obsessed with You)</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Chief Happiness Officer</div>
+        <div class="credits-name">Your Smile</div>
+        <div class="credits-role" style="font-size: 0.8rem;">(It literally fixes my bad days)</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Best Hugger Award</div>
+        <div class="credits-name">You, obviously :)</div>
+        <div class="credits-role" style="font-size: 0.8rem;">(Safe place: Your arms)</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Makeup Department</div>
+        <div class="credits-name">Natural Beauty</div>
+        <div class="credits-role" style="font-size: 0.8rem;">(You glow even without trying)</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Scriptwriter</div>
+        <div class="credits-name">Destiny</div>
+        <div class="credits-role" style="font-size: 0.8rem;">(For crossing our paths)</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Catering Provided By</div>
+        <div class="credits-name">Street Food & Late Night Maggi</div>
+        </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Sponsored By</div>
+        <div class="credits-name">My Empty Wallet & Full Heart</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Special Thanks To</div>
+        <div class="credits-name">Your Parents</div>
+        <div class="credits-role" style="font-size: 0.8rem;">(For bringing an angel into this world)</div>
+    </div>
+
+    <div class="credits-item">
+        <div class="credits-role">Lifetime Achievement Award</div>
+        <div class="credits-name">For tolerating my annoying jokes</div>
+    </div>
+
+    <div class="credits-special">
+        "I don't need a Netflix subscription<br>
+        because watching you be happy<br>
+        is my favorite show.<br><br>
+        
+        Happy Birthday, my love.<br>
+        Thank you for existing.<br><br>
+        
+        I Love You.<br>
+        Forever & Always."
+    </div>
+    
+    <div style="height: 200px;"></div>
+</div>
+    </div>
+
+    <div class="modal" id="imageModal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModalDirect()">×</button>
+            <img src="" alt="Memory" class="modal-img" id="modalImg">
+            <div class="modal-info">
+                <h3 class="modal-title" id="modalTitle">Title</h3>
+                <p class="modal-desc" id="modalDesc">Description</p>
+                <button class="modal-audio-btn" id="modalAudioBtn" style="display: none;" onclick="playModalAudio()">
+                    🎧 Play Audio Commentary
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="easter-egg-notification" id="easterEgg">
+        <h3 style="margin-bottom: 10px;">🎉 Easter Egg Unlocked!</h3>
+        <p>Pink Mode Activated! You found the secret! ✨</p>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                nav.style.background = '#141414';
+            } else {
+                nav.style.background = 'linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0))';
+            }
+        });
+
+        // Audio Commentary System (Simulated)
+        const audioMessages = [
+            "Babe, I remember this day so vividly. You looked absolutely stunning, and when you smiled like that, I knew I was the luckiest person alive.",
+            "This is my favorite sound in the entire world. Your laugh makes everything better. I could listen to it on repeat forever.",
+            "Even when you're not trying, you're perfect. This candid moment captures exactly why I fell in love with you."
+        ];
+
+        let currentAudio = null;
+
+        function playAudio(index, event) {
+            event.stopPropagation();
+            const badge = event.target;
+            
+            if (currentAudio !== null) {
+                document.querySelectorAll('.audio-badge').forEach(b => b.classList.remove('playing'));
+            }
+
+            if (currentAudio === index) {
+                currentAudio = null;
+                badge.classList.remove('playing');
+                alert("Audio stopped (In real version: voice recording would play here)");
+            } else {
+                currentAudio = index;
+                badge.classList.add('playing');
+                alert(`🎧 Audio Commentary:\n\n"${audioMessages[index]}"\n\n(In real version, your actual voice recording would play here!)`);
+                setTimeout(() => {
+                    badge.classList.remove('playing');
+                    currentAudio = null;
+                }, 3000);
+            }
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalAudioBtn = document.getElementById('modalAudioBtn');
+        let currentModalAudio = null;
+
+        function openModal(title, desc, audioIndex) {
+            const clickedImageSrc = event.target.src;
+            
+            modalImg.src = clickedImageSrc;
+            modalTitle.innerText = title;
+            modalDesc.innerText = desc;
+            
+            if (audioIndex !== null) {
+                modalAudioBtn.style.display = 'inline-flex';
+                currentModalAudio = audioIndex;
+            } else {
+                modalAudioBtn.style.display = 'none';
+                currentModalAudio = null;
+            }
+            
+            modal.style.display = 'flex';
+        }
+        function blowCandle() {
+            const flame = document.getElementById('flame');
+            const smoke = document.getElementById('smoke');
+            const msg = document.getElementById('birthdayMessage');
+            
+            // 1. Blow out flame
+            flame.classList.add('out');
+            smoke.classList.add('rise');
+
+            // 2. Play Audio (Make sure you have hbd.mp3 in the folder!)
+            // const audio = new Audio('hbd.mp3');
+            // audio.play();
+
+            // 3. Show Message
+            msg.style.opacity = '1';
+            
+            // 4. TRIGGER CONFETTI (The new part!)
+            fireConfetti(); 
+
+            setTimeout(() => {
+                alert("🎉 May all your wishes come true! I love you! 🎉");
+                document.getElementById('cakeModal').style.display='none';
+            }, 4000); // Increased time so she can see the confetti fall
+        }
+        function playModalAudio() {
+            if (currentModalAudio !== null) {
+                alert(`🎧 Audio Commentary:\n\n"${audioMessages[currentModalAudio]}"\n\n(In real version, your actual voice recording would play here!)`);
+            }
+        }
+
+        function closeModal(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        function closeModalDirect() {
+            modal.style.display = 'none';
+        }
+
+        function playVideo() {
+            alert("💝 This would link to a special video message or montage!\n\nFor example: A YouTube video you created, or a video compilation of your memories together.");
+        }
+
+        // Easter Egg - Logo Click Counter
+        let clickCount = 0;
+        let clickTimer = null;
+        const logo = document.getElementById('logo');
+        const easterEgg = document.getElementById('easterEgg');
+
+        logo.addEventListener('click', () => {
+            clickCount++;
+            
+            if (clickTimer) clearTimeout(clickTimer);
+            
+            if (clickCount >= 5) {
+                document.body.classList.toggle('pink-mode');
+                easterEgg.style.display = 'block';
+                setTimeout(() => {
+                    easterEgg.style.display = 'none';
+                }, 4000);
+                clickCount = 0;
+            }
+            
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 2000);
+        });
+        // --- CONFETTI FUNCTION (Paste this at the bottom of your script) ---
+
+        // --- NEW & IMPROVED CONFETTI FUNCTION ---
+        function fireConfetti() {
+            const count = 150; // More paper = more celebration
+            const colors = ['#ff6b9d', '#fdcb6e', '#55efc4', '#74b9ff', '#a29bfe', '#ff7675'];
+
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti-piece');
+
+                // 1. RANDOM COLORS
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                // 2. RANDOM POSITION (Across the whole width)
+                confetti.style.left = Math.random() * 100 + 'vw';
+
+                // 3. RANDOM SIZE (Small and big pieces)
+                const size = Math.random() * 8 + 6 + 'px'; // 6px to 14px
+                confetti.style.width = size;
+                confetti.style.height = Math.random() > 0.5 ? size : (Math.random() * 4 + 4 + 'px'); // Some are rectangles
+
+                // 4. RANDOM ANIMATION PHYSICS
+                // Duration: Between 2.5s (fast) and 5s (slow float)
+                const duration = Math.random() * 2.5 + 2.5 + 's';
+                
+                // Delay: STAGGER THEM! Don't start all at once. Start between 0s and 2s.
+                const delay = Math.random() * 2 + 's';
+                
+                // Drift: Some blow left (-100px), some blow right (+100px)
+                const drift = (Math.random() * 300 - 150) + 'px';
+                
+                // Spin: Some spin 360, some spin 720
+                const spin = (Math.random() * 360 + 360) + 'deg';
+
+                // Apply these to the CSS variables we made
+                confetti.style.animationDuration = duration;
+                confetti.style.animationDelay = delay;
+                confetti.style.setProperty('--drift', drift);
+                confetti.style.setProperty('--spin', spin);
+
+                document.body.appendChild(confetti);
+
+                // Cleanup after animation ends (to keep browser fast)
+                setTimeout(() => {
+                    confetti.remove();
+                }, 6000);
+            }
+        }
+    </script>
+</body>
+</html>

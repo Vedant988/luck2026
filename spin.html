@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIVA Official | Birthday Exclusive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --giva-rose: #B76E79;
+            --giva-black: #282c3f;
+            --giva-grey: #f5f5f6;
+            --gold: #d4af37;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fff;
+            color: var(--giva-black);
+            overflow-x: hidden;
+        }
+
+        /* --- Header --- */
+        .promo-banner {
+            background-color: #fdf0f0;
+            color: var(--giva-rose);
+            text-align: center;
+            font-size: 11px;
+            padding: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar {
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #000;
+        }
+
+        /* --- Container --- */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Hero Section --- */
+        .hero-card { text-align: center; padding: 20px 0; }
+
+        .selected-badge {
+            background: #000;
+            color: #fff;
+            padding: 4px 10px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 15px 0 10px;
+            color: #000;
+        }
+
+        .subtext {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* --- Form --- */
+        .verify-box {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .form-group { display: flex; gap: 10px; margin-bottom: 20px; }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            background: #fff;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .btn {
+            background: var(--giva-black);
+            color: #fff;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        /* Share Section Styles */
+.share-card {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+}
+
+.share-card h3 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 5px;
+    color: var(--giva-black);
+}
+
+.share-card p {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.share-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.share-btn:active { transform: scale(0.95); }
+
+.whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.copy {
+    background: #f0f0f0;
+    color: #333;
+}
+        .btn:hover { background: #1a1d2e; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- Wheel Section --- */
+        .wheel-section {
+            display: none; /* Hidden by default */
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .wheel-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .wheel-note { color: #888; font-size: 12px; margin-bottom: 25px; }
+
+        .wheel-wrapper {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+        }
+
+        /* Canvas needs to be block to respect width/height */
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid var(--giva-black);
+            z-index: 10;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        }
+
+        /* --- Comments --- */
+        .comments-section {
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+            background: #fafafa; /* Slight distinct background */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .comments-header {
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .rating { font-size: 12px; color: #666; }
+
+        .comment-item {
+            display: flex; gap: 15px; margin-bottom: 20px;
+            border-bottom: 1px solid #eee; padding-bottom: 15px;
+        }
+        .comment-item:last-child { border-bottom: none; }
+
+        .avatar {
+            width: 38px; height: 38px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 13px; flex-shrink: 0;
+        }
+
+        .comment-content h4 {
+            font-size: 13px; margin-bottom: 4px;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .verified-tick { color: #2ecc71; font-size: 12px; }
+        .comment-text { font-size: 13px; color: #555; line-height: 1.4; margin-bottom: 4px; }
+        .meta { font-size: 10px; color: #999; }
+        .tag { color: #3897f0; font-weight: 500; }
+
+        /* --- Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .modal-content {
+            background: #fff; padding: 30px;
+            width: 100%; max-width: 360px;
+            border-radius: 12px; text-align: center;
+            position: relative; animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .modal h2 { font-family: 'Playfair Display'; margin-bottom: 5px; font-size: 2rem; color: #d4af37; }
+        .modal-subtext { color: #888; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+        
+        .product-img { width: 100%; max-width: 220px; border-radius: 8px; margin: 10px 0 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .product-title { color: var(--giva-black); margin-bottom: 15px; font-size: 1.2rem; }
+        
+        .address-box {
+            background: #fdf0f0; color: #8a4a52; padding: 12px;
+            border-radius: 6px; font-size: 13px; margin-bottom: 20px;
+            border: 1px solid #fadcd9; text-align: left;
+        }
+
+        .success-msg {
+            display: none; margin-top: 15px; font-size: 13px; color: #2e7d32;
+            background: #e8f5e9; padding: 15px; border-radius: 6px; border: 1px solid #c8e6c9;
+        }
+
+        /* Confetti */
+        .confetti { position: fixed; width: 8px; height: 8px; z-index: 999; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+        /* Footer */
+        .footer { text-align: center; color: #999; font-size: 10px; padding: 30px; opacity: 0.7; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="promo-banner">
+        FREE SHIPPING ON ORDERS ABOVE ₹999 | PARTNERED WITH INSTAMART
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">GIVA</div>
+    </nav>
+
+    <div class="container">
+        
+        <div id="stepVerify">
+            <div class="hero-card">
+                <span class="selected-badge">Selected Customer #8821</span>
+                <h1>Congratulations!</h1>
+                <p class="subtext">
+                    You have been shortlisted for the <strong>GIVA × Instamart Birthday Promotion</strong>. 
+                    Please confirm your birth date to unlock your guaranteed reward.
+                </p>
+            </div>
+
+            <div class="verify-box">
+                <div class="form-group">
+                    <select id="day" required>
+                        <option value="">Day</option>
+                    </select>
+                    <select id="month" required>
+                        <option value="">Month</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="verifyUser()">Verify & Spin</button>
+            </div>
+        </div>
+
+        <div id="stepWheel" class="wheel-section">
+            <h2>Spin Your Reward</h2>
+            <p class="wheel-note">Verification Successful! Spin to reveal.</p>
+            
+            <div class="wheel-wrapper">
+                <div class="pointer"></div>
+                <canvas id="wheelCanvas" width="600" height="600"></canvas>
+            </div>
+
+            <button id="spinBtn" class="btn">SPIN NOW</button>
+        </div>
+
+        <div class="comments-section">
+            <div class="comments-header">
+                <span>Recent Claims</span>
+                <span class="rating">⭐ 4.9/5 Rating</span>
+            </div>
+
+            <div class="comment-item">
+                <div class="avatar" style="background: #ffecd1; color: #d4a017;">M</div>
+                <div class="comment-content">
+                    <h4>Maria S. <span class="verified-tick">✔</span></h4>
+                    <p class="comment-text">I love these promotions! 😍 Received my Silver pendant today. Quality is amazing as always.</p>
+                    <div class="meta">2 mins ago • Mumbai</div>
+                </div>
+            </div>
+
+            <div class="comment-item">
+                <div class="avatar" style="background: #e3f2fd; color: #1565c0;">A</div>
+                <div class="comment-content">
+                    <h4>Arshi Khan <span class="verified-tick">✔</span></h4>
+                    <p class="comment-text">I honestly thought it was a joke at first lol but my family and I actually received the gifts. Thanks <span class="tag">@Instamart</span> <span class="tag">@GIVA</span> ❤️</p>
+                    <div class="meta">14 mins ago • Delhi</div>
+                </div>
+            </div>
+
+            <div class="comment-item">
+                <div class="avatar" style="background: #fce4ec; color: #c2185b;">P</div>
+                <div class="comment-content">
+                    <h4>Priya D. <span class="verified-tick">✔</span></h4>
+                    <p class="comment-text">Got the bracelet! Shipping was super fast. Packaging is 10/10.</p>
+                    <div class="meta">45 mins ago • Bangalore</div>
+                </div>
+            </div>
+        </div>
+        <div class="share-card">
+            <h3>🎁 Share the Luck</h3>
+            <p>Invite friends to try their luck. Limited slots available for this campaign.</p>
+            
+            <div class="share-buttons">
+                <button class="share-btn whatsapp" onclick="shareToWhatsapp()">
+                    <span style="font-size: 16px; margin-right: 5px;">📱</span> Share on WhatsApp
+                </button>
+                <button class="share-btn copy" onclick="copyLink()">
+                    <span style="font-size: 16px; margin-right: 5px;">🔗</span> Copy Link
+                </button>
+            </div>
+        <div id="copy-msg" style="font-size: 11px; color: green; margin-top: 5px; display: none;">Link copied to clipboard!</div>
+    </div>
+        
+        <div class="footer">
+            &copy; 2025 GIVA Jewellery. All rights reserved.<br>
+            Partnership with Swiggy Instamart.
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>YOU WON!</h2>
+            <p class="modal-subtext">Grand Prize Unlocked</p>
+            
+            <img src="https://www.giva.co/cdn/shop/products/PD096_5-min.jpg?v=1712924838&width=713" class="product-img" alt="GIVA Bracelet">
+            
+            <h3 class="product-title">GIVA Silver Bracelet</h3>
+            
+            <div class="address-box">
+                <strong style="color: #333;">📍 Location Validated: Wardha</strong><br>
+                Shipping to: ********dha (442001)
+            </div>
+
+            <button id="claimBtn" class="btn">SHIP REWARD NOW</button>
+            <div id="successMsg" class="success-msg">
+                <b>Order Placed!</b><br>Arriving specially for your big day.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. SETUP & UTILS ---
+        
+        // Populate days
+        const daySelect = document.getElementById('day');
+        for (let i = 1; i <= 31; i++) {
+            const opt = document.createElement('option');
+            opt.value = i < 10 ? '0' + i : i.toString();
+            opt.textContent = i;
+            daySelect.appendChild(opt);
+        }
+
+        let isWinner = false;
+        let hasSpun = false;
+
+        // Check local storage so she can't spin twice
+        if(localStorage.getItem('giva_spin_locked')) {
+            document.querySelector('.hero-card').innerHTML = "<h1>Already Claimed</h1><p>You have already redeemed your birthday spin.</p>";
+            document.querySelector('.verify-box').style.display = 'none';
+        }
+
+        // --- 2. VERIFICATION LOGIC ---
+        function verifyUser() {
+            const day = document.getElementById('day').value;
+            const month = document.getElementById('month').value;
+
+            if (!day || !month) {
+                alert("Please select your birth date.");
+                return;
+            }
+
+            // RIGGED LOGIC: 8th January (08/01)
+            if (day === '08' && month === '01') {
+                isWinner = true;
+            }
+
+            // UI Switch
+            document.getElementById('stepVerify').classList.add('hidden');
+            const wheelSection = document.getElementById('stepWheel');
+            wheelSection.style.display = 'block'; // Ensure block display before drawing
+            
+            // IMPORTANT: Draw the wheel NOW that it is visible
+            setTimeout(drawWheel, 50); 
+        }
+
+        // --- 3. WHEEL DRAWING & LOGIC ---
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Define Segments
+        const segments = [
+            { text: "GIVA\nBRACELET", color: "#B76E79", textColor: "#fff", isGrand: true }, // Index 0 (Winner)
+            { text: "Better Luck", color: "#f5f5f6", textColor: "#333" },
+            { text: "15% OFF", color: "#e8e8e8", textColor: "#333" },
+            { text: "Free Ship", color: "#f5f5f6", textColor: "#333" },
+            { text: "Hard Luck", color: "#e8e8e8", textColor: "#333" },
+            { text: "₹100 CB", color: "#f5f5f6", textColor: "#333" }
+        ];
+
+        let currentRotation = 0;
+
+        function drawWheel() {
+            // High DPI Scaling for sharp text on mobile
+            const width = 300; 
+            const height = 300;
+            // The canvas is actually 600x600 in HTML for retina, but styled to 300x300 via CSS implicitly if needed, 
+            // but here we just use the coordinate system of 600x600
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 280; // slightly smaller than half width
+            const anglePerSegment = (2 * Math.PI) / segments.length;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            segments.forEach((seg, i) => {
+                const startAngle = currentRotation + (i * anglePerSegment);
+                const endAngle = startAngle + anglePerSegment;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = seg.color;
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+
+                // Text
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + anglePerSegment / 2);
+                ctx.textAlign = 'center';
+                ctx.fillStyle = seg.textColor;
+                // Larger font because canvas is 600px
+                ctx.font = 'bold 24px Montserrat'; 
+                const lines = seg.text.split('\n');
+                lines.forEach((line, idx) => {
+                    ctx.fillText(line, radius * 0.65, 10 + idx * 30);
+                });
+                ctx.restore();
+            });
+
+            // Center circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 40, 0, 2 * Math.PI);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#B76E79';
+            ctx.stroke();
+        }
+
+        // --- 4. SPIN ANIMATION ---
+        document.getElementById('spinBtn').addEventListener('click', function() {
+            if (this.disabled || hasSpun) return;
+            
+            this.disabled = true;
+            this.textContent = 'SPINNING...';
+            hasSpun = true;
+            localStorage.setItem('giva_spin_locked', 'true');
+
+            // 1. Determine Target
+            // If winner, Target Index = 0. Else random between 1-5.
+            const targetIndex = isWinner ? 0 : Math.floor(Math.random() * (segments.length - 1)) + 1;
+
+            // 2. Calculate Rotation
+            // Pointer is at Top (1.5 PI or 270 deg)
+            const segmentAngle = (2 * Math.PI) / segments.length;
+            const pointerAngle = 1.5 * Math.PI;
+            
+            // Where is the center of the target right now? (at rotation 0)
+            const targetCenterCurrent = (targetIndex * segmentAngle) + (segmentAngle / 2);
+            
+            // How much do we need to rotate to bring targetCenter to pointerAngle?
+            let rotationNeeded = pointerAngle - targetCenterCurrent;
+            
+            // Normalize positive
+            if (rotationNeeded < 0) rotationNeeded += 2 * Math.PI;
+
+            // Add extra spins (5 full rotations)
+            const totalRotation = (5 * 2 * Math.PI) + rotationNeeded;
+            
+            // 3. Animate
+            const duration = 4000; // 4 seconds
+            const startTime = Date.now();
+
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease Out Quartic
+                const easeOut = 1 - Math.pow(1 - progress, 4);
+
+                currentRotation = easeOut * totalRotation;
+                drawWheel();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    setTimeout(() => showResult(targetIndex), 500);
+                }
+            }
+            animate();
+        });
+        // --- SHARE FUNCTIONS ---
+        function shareToWhatsapp() {
+            // This is the message her friend will "automatically" send to her
+            const text = "Hey, check this GIVA birthday offer? I tried but got nothing 🥲 maybe it works for you?";
+            
+            // HARDCODE your Render URL here so the link is always correct
+            const url = "https://birthday-9kwc.onrender.com";
+
+            // Opens WhatsApp with the pre-filled message and link
+            window.location.href = `https://wa.me/?text=${encodeURIComponent(text)} ${encodeURIComponent(url)}`;
+        }
+
+        function copyLink() {
+            // Hardcode the URL so it always copies the correct live site
+            const url = "https://birthday-9kwc.onrender.com";
+
+            navigator.clipboard.writeText(url).then(() => {
+                const msg = document.getElementById('copy-msg');
+                // If you don't have this ID in your HTML yet, add it or just use alert
+                if(msg) {
+                    msg.style.display = 'block';
+                    setTimeout(() => msg.style.display = 'none', 2000);
+                } else {
+                    alert("Link copied!");
+                }
+            }).catch(() => {
+                // Fallback if clipboard fails
+                alert("Link copied: " + url);
+            });
+        }
+        // --- 5. RESULT & CLAIM ---
+        function showResult(index) {
+            if (index === 0) {
+                // Winner
+                document.getElementById('modal').style.display = 'flex';
+                createConfetti();
+            } else {
+                // Loser (Fallback)
+                alert("So close! Better luck next time.");
+                location.reload();
+            }
+        }
+
+        document.getElementById('claimBtn').addEventListener('click', async function() {
+            // 1. UI Feedback: Disable button to prevent double-logging
+            const btn = this;
+            btn.disabled = true;
+            btn.textContent = 'PROCESSING...';
+
+            // 2. Prepare the data "Flag"
+            const claimData = {
+                status: 'CLAIMED',
+                item: 'GIVA Silver Bracelet',
+                timestamp: new Date().toISOString(),
+                platform: navigator.platform // Helps you identify her device in logs
+            };
+
+            try {
+                // 3. Send the actual flag to your Render backend
+                // Note: Using a relative path '/' works if HTML and API are on the same Render service
+                const response = await fetch('/api/claim-reward', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(claimData)
+                });
+
+                if (response.ok) {
+                    console.log("Flag successfully set in backend logs.");
+                }
+            } catch (error) {
+                // Silent catch: We don't want to show her an error if your backend is sleeping.
+                // We want her to see the "Success" message regardless.
+                console.error("Log failed, but proceeding with UI:", error);
+            } finally {
+                // 4. Final UX Transition
+                // Small delay so the "Processing" looks real
+                setTimeout(() => {
+                    btn.style.display = 'none';
+                    const successMsg = document.getElementById('successMsg');
+                    if (successMsg) {
+                        successMsg.style.display = 'block';
+                        // Trigger confetti again for the final win
+                        if (typeof createConfetti === 'function') createConfetti();
+                    }
+                }, 1000);
+            }
+        });
+
+        // --- 6. EFFECTS ---
+        function createConfetti() {
+            const colors = ['#B76E79', '#d4af37', '#fff'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = `fall ${Math.random() * 2 + 2}s linear`;
+                    document.body.appendChild(confetti);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>

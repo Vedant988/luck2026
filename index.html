@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Day 💝</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #FFD3A5 0%, #FD6585 50%, #C9A0DC 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-primary: #4A4A4A;
+            --text-light: #8B7F9E;
+            --button-gradient: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 99%, #FAD0C4 100%);
+            --shadow-soft: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #FFD3A5 0%, #FD6585 50%, #C9A0DC 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float 8s ease-in infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 2px solid var(--glass-border);
+            padding: 50px 40px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+        }
+
+        .sticker {
+            position: absolute;
+            top: -40px;
+            right: -20px;
+            font-size: 80px;
+            animation: bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(-10deg); }
+            50% { transform: translateY(-15px) rotate(-5deg); }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        input:focus {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .error-hint {
+            display: none;
+            background: #fff0f3; /* Very light pink/white background */
+            color: #d6336c;       /* Darker raspberry pink text for contrast */
+            font-size: 0.9rem;    /* Slightly bigger */
+            padding: 10px 15px;
+            border-radius: 15px;
+            border: 2px solid #ffdeeb;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(214, 51, 108, 0.2); /* Soft pink glow */
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy animation */
+        }
+
+        /* This adds a tiny triangle to make it look like a speech bubble */
+        .error-hint::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #ffdeeb;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: translateY(-10px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .error-hint.show {
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            background: var(--button-gradient);
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(253, 101, 133, 0.3);
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(253, 101, 133, 0.5);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px) rotate(-1deg); }
+            75% { transform: translateX(10px) rotate(1deg); }
+        }
+
+        .shake {
+            animation: shake 0.4s ease;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #FF6B9D;
+            position: absolute;
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 1s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .sticker {
+                font-size: 60px;
+                top: -30px;
+                right: -15px;
+            }
+        }
+        /* The Transition Curtain */
+#transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff0f5; /* Lavender Blush */
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease-in-out;
+}
+
+#transition-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+    </style>
+</head>
+<body>
+    <div id="transition-overlay"></div>
+    <div id="particles"></div>
+    
+    <div class="container">
+        <div class="glass-card" id="card">
+            <div class="sticker">🎀</div>
+            <h1>A Special Day</h1>
+            <p class="subtitle">Answer these questions to continue...</p>
+            
+            <form id="gateForm">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        placeholder="Who is the prettiest girl in the world?"
+                        required
+                    >
+                </div>
+                
+                <div class="input-group">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="What is the magic word?"
+                        required
+                    >
+                    <div class="error-hint" id="errorHint">
+                        Try again, ma! 💕 Hint: ... (No spaces!)
+                    </div>
+                </div>
+                
+                <button type="submit">Enter ✨</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Particle System
+        const particlesContainer = document.getElementById('particles');
+        const particleEmojis = ['💕', '💖', '✨', '💗', '🌸', '🎀'];
+        
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particlesContainer.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 10000);
+        }
+        
+        setInterval(createParticle, 800);
+        
+        // Form Handling
+        const form = document.getElementById('gateForm');
+        const card = document.getElementById('card');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorHint = document.getElementById('errorHint');
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            if (password.toLowerCase() === 'iloveyou') {
+                // 1. Visual Success Feedback
+                const btn = document.querySelector('button');
+                btn.innerHTML = "Unlocked! ❤️";
+                btn.style.background = "#4cd137"; // A soft success green or keep pink
+                btn.style.transform = "scale(1.1)";
+                errorHint.classList.remove('show');
+                createConfetti();
+                
+                setTimeout(() => {
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        alert(`🎉 Welcome, ${username}! Happy Birthday, my love! 💝`);
+                        // In real implementation, redirect here
+                        window.location.href = 'birthday-page.html';
+                    }, 1000);
+                }, 1500);
+            } else {
+                // Error
+                card.classList.add('shake');
+                errorHint.classList.add('show');
+                passwordInput.value = '';
+                
+                setTimeout(() => {
+                    card.classList.remove('shake');
+                }, 400);
+            }
+        });
+        
+        // Confetti System
+        function createConfetti() {
+            const colors = ['#FF6B9D', '#FFD3A5', '#C9A0DC', '#FAD0C4', '#FD6585'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = Math.random() * 8 + 5 + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+        
+        // Remove error hint when user starts typing
+        passwordInput.addEventListener('input', () => {
+            errorHint.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
